@@ -2,16 +2,17 @@ use std::io::{self, Read};
 use std::collections::HashMap;
 mod graph;
 
-fn fetch_node<'a>(nodes: &HashMap<usize, graph::Graph>, id: usize) -> graph::Graph {
-    if nodes.contains_key(id) {
-        return nodes.get(id).unwrap()
+fn fetch_node<'a>(nodes: &mut HashMap<usize, graph::Graph>, id: usize) -> &'a graph::Graph<'a> {
+    if nodes.contains_key(&id) {
+        return nodes.get(&id).unwrap()
     }
     let graph = graph::Graph {
         id: id,
         neighbors: Vec::new(),
     };
+    let foo = &graph;
     nodes.insert(id, graph);
-    graph
+    foo
 }
 
 fn main() -> io::Result<()> {
